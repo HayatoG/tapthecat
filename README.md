@@ -1,6 +1,6 @@
-# tapthecat
+# cats_against_the_tap
 
-A new flutter game
+A new Flutter project.
 
 ## Getting Started
 
