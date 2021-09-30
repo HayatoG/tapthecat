@@ -45,6 +45,7 @@ class GamePageState extends State<GamePage> {
               leading: Icon(Icons.monetization_on_rounded),
               title: const Text('+2 moedas'),
                 onTap: () {
+                  Navigator.pop(context);
                   debugPrint('Moedas atuais: $counter');
                   if (wasPressed == false && counter >= 5) {
                     counter -= 5;
@@ -55,6 +56,7 @@ class GamePageState extends State<GamePage> {
                       setState(() {
                         counter += 2;
                         debugPrint('Moedas: $counter');
+                        
                       });
                       Timer(const Duration(seconds: 5), () {
                         wasPressed = false;
@@ -75,6 +77,7 @@ class GamePageState extends State<GamePage> {
               leading: Icon(Icons.play_arrow_rounded),
               title: const Text('Cliques automáticos'),
               onTap: () {
+                Navigator.pop(context);
                 if(counter >= 30 && isAutomatic == false){
                   isAutomatic = true;
                   counter -=30;
@@ -104,6 +107,7 @@ class GamePageState extends State<GamePage> {
                     autoTimer?.cancel();
                     counter = 0;
                     debugPrint('Moedas após cancelar: $counter');
+                    Navigator.pop(context);
                   });
                 },
             ),
