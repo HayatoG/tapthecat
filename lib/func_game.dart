@@ -27,7 +27,7 @@ class GamePageState extends State<GamePage> {
           padding: EdgeInsets.zero,
           children: [
             Container(
-              height: 15.h,
+              height: MediaQuery.of(context).size.height * 0.1265,
               child: const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
@@ -101,6 +101,7 @@ class GamePageState extends State<GamePage> {
               leading: Icon(Icons.cancel_rounded),
               title: const Text('Zerar jogo'),
                 onTap: () {
+                  isAutomatic = false;
                   debugPrint('Cancelando contador e zerando dinheirinhos');
                   debugPrint('Moedas atuais: $counter');
                   setState(() {
