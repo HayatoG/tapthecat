@@ -20,12 +20,12 @@ class _store_pageState extends State<store_page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LOJINHA"),
+        title: const Text("LOJINHA"),
       ),
       body: ListTile(
-        leading: Icon(Icons.monetization_on_rounded),
-        title: Text('+2 Dinheiros'),
-        subtitle: Text('Custa: 5 dinheiros.'),
+        leading: const Icon(Icons.monetization_on_rounded),
+        title: const Text('+2 Dinheiros'),
+        subtitle: const Text('Custa: 5 dinheiros.'),
         onLongPress: () {
           toast('Te dá +2 moedas durante 5 segundos');
         },
@@ -40,12 +40,13 @@ class _store_pageState extends State<store_page> {
               debugPrint('Moedas: $counter');
               Timer(const Duration(seconds: 5), () {
                 wasPressed = false;
+                shopCalled = true;
                 timer.cancel();
               });
               Navigator.pop(context, counter);
+              
             });
           }
-          ;
           if (wasPressed == false || counter < 5) {
             showSimpleNotification(
               Text("Você tem $counter dinheiros\nVocê precisa de 5 dinheiros"),

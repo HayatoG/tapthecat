@@ -37,12 +37,14 @@ class GamePage extends StatefulWidget {
 
 class GamePageState extends State<GamePage> {
   Image img = Image.asset('images/BocaFechada.png');
+  Image imgTemp = Image.asset('images/BocaAberta.png');
   Timer? timer;
   Timer? autoTimer;
+  Timer? animateTimer;
   bool isAutomatic = false;
   Image OpenMouth = Image.asset('images/BocaAberta.png');
   Image CloseMouth = Image.asset('images/BocaFechada.png');
-  double counterLocal = counter;
+  //double counterLocal = counter;
 
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
@@ -51,7 +53,7 @@ class GamePageState extends State<GamePage> {
   void initState() {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {
@@ -81,7 +83,7 @@ class GamePageState extends State<GamePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Dinheiros: $counterLocal'),
+          title: Text('Dinheiros: $counter'),
         ),
         drawer: Drawer(
           child: ListView(
@@ -103,7 +105,7 @@ class GamePageState extends State<GamePage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.monetization_on_rounded),
+                leading: const Icon(Icons.monetization_on_rounded),
                 title: const Text('+2 moedas'),
                 onTap: () {
                   Navigator.pop(context);
@@ -124,7 +126,6 @@ class GamePageState extends State<GamePage> {
                       });
                     });
                   }
-                  ;
                   if (wasPressed == false || counter < 5) {
                     showSimpleNotification(
                       Text(
@@ -136,7 +137,7 @@ class GamePageState extends State<GamePage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.play_arrow_rounded),
+                leading: const Icon(Icons.play_arrow_rounded),
                 title: const Text('Cliques automáticos'),
                 onTap: () {
                   Navigator.pop(context);
@@ -149,6 +150,13 @@ class GamePageState extends State<GamePage> {
                       setState(() {
                         counter += 1;
                         debugPrint('Moedas: $counter');
+                          setState(() {
+                            if(counter % 2 == 0) {
+                              img = CloseMouth;
+                            } else if (counter % 2 == 1){
+                              img = OpenMouth;
+                            }
+                          });
                       });
                     });
                   } else {
@@ -162,7 +170,7 @@ class GamePageState extends State<GamePage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.cancel_rounded),
+                leading: const Icon(Icons.cancel_rounded),
                 title: const Text('Zerar jogo'),
                 onTap: () {
                   isAutomatic = false;
@@ -193,7 +201,7 @@ class GamePageState extends State<GamePage> {
                   onTapDown: (tap) {
                     setState(() {
                       img = OpenMouth;
-                      counterLocal = counter++;
+                      counter++;
                     });
                   },
                   onTapCancel: () {
@@ -203,29 +211,31 @@ class GamePageState extends State<GamePage> {
                   },
                 ),
               ),
-              Container(
+/*               Container(
                 alignment: Alignment.bottomLeft,
                 child: ElevatedButton(
                     onPressed: () async {
                       final numero = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => store_page()));
+                              builder: (context) => const store_page()));
                       // ScaffoldMessenger.of(context)
                       //   ..showSnackBar(
                       //       SnackBar(content: Text('Agora vai $numero')));
 
                       //Depois tentar usar um timer nesse set state para atualizar o numero
-                      autoTimer =
-                          Timer.periodic(const Duration(seconds: 1), (timer) {
-                        setState(() {
-                          counterLocal = numero;
-                          debugPrint('Moedas: $counter');
+                      if (shopCalled == true) {
+                        autoTimer = Timer.periodic(
+                            const Duration(milliseconds: 500), (timer) {
+                          setState(() {
+                            counter = numero;
+                            debugPrint('Moedas: $counter');
+                          });
                         });
-                      });
+                      }
                     },
-                    child: Icon(Icons.store_rounded)),
-              ),
+                    child: const Icon(Icons.store_rounded)),
+              ), */
               if (_isBannerAdReady == true)
                 Align(
                   alignment: Alignment.topCenter,
