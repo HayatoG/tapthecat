@@ -20,7 +20,7 @@ class HomeWidget extends StatelessWidget {
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData.light(),
-            home: GamePage(),
+            home: jogopage(),
           ),
         );
       },
@@ -28,26 +28,26 @@ class HomeWidget extends StatelessWidget {
   }
 }
 
-class GamePage extends StatefulWidget {
+class jogopage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return GamePageState();
+    return jogopageState();
   }
 }
 
-class GamePageState extends State<GamePage> {
-  Image img = Image.asset('images/BocaFechada.png');
-  Image imgTemp = Image.asset('images/BocaAberta.png');
+class jogopageState extends State<jogopage> {
+
   Timer? timer;
   Timer? autoTimer;
   Timer? animateTimer;
   bool isAutomatic = false;
-  Image OpenMouth = Image.asset('images/BocaAberta.png');
-  Image CloseMouth = Image.asset('images/BocaFechada.png');
+
   //double counterLocal = counter;
 
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
+
+  double _count = 0.0;
 
   @override
   void initState() {
@@ -69,6 +69,11 @@ class GamePageState extends State<GamePage> {
       ),
     );
     _bannerAd.load();
+  }
+
+
+  void _update(double count) {
+    setState(() => _count = count);
   }
 
   void dispose() {
@@ -150,13 +155,13 @@ class GamePageState extends State<GamePage> {
                       setState(() {
                         counter += 1;
                         debugPrint('Moedas: $counter');
-                          setState(() {
-                            if(counter % 2 == 0) {
-                              img = CloseMouth;
-                            } else if (counter % 2 == 1){
-                              img = OpenMouth;
-                            }
-                          });
+                        setState(() {
+                          if (counter % 2 == 0) {
+                            img = CloseMouth;
+                          } else if (counter % 2 == 1) {
+                            img = OpenMouth;
+                          }
+                        });
                       });
                     });
                   } else {
@@ -211,6 +216,24 @@ class GamePageState extends State<GamePage> {
                   },
                 ),
               ),
+              Container(
+                alignment: Alignment.bottomLeft,
+                child: ElevatedButton(
+                  onPressed: () {
+                    store_page(update: _update);
+                  },
+                  child: Icon(Icons.shop_2_outlined),
+                ),
+              ),
+              if (_isBannerAdReady == true)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    width: _bannerAd.size.width.toDouble(),
+                    height: _bannerAd.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd),
+                  ),
+                ),
 /*               Container(
                 alignment: Alignment.bottomLeft,
                 child: ElevatedButton(
@@ -236,15 +259,6 @@ class GamePageState extends State<GamePage> {
                     },
                     child: const Icon(Icons.store_rounded)),
               ), */
-              if (_isBannerAdReady == true)
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    width: _bannerAd.size.width.toDouble(),
-                    height: _bannerAd.size.height.toDouble(),
-                    child: AdWidget(ad: _bannerAd),
-                  ),
-                ),
             ],
           ),
         ),
